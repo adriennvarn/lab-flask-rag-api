@@ -10,13 +10,18 @@ def create_app():
 
     @app.post("/api/ask")
     def ask():
-        # TODO: Read the JSON request body with request.get_json(silent=True).
-        # TODO: Validate the payload with validate_question_payload().
-        # TODO: Return a 400 JSON response for invalid input.
-        # TODO: Call answer_question(question) for valid input.
-        # TODO: Return a 502 JSON response for ModelClientError.
-        # TODO: Return the RAG result as JSON with a 200 status code.
-        raise NotImplementedError("Implement the POST /api/ask route.")
+        json = request.get_json(silent=True)
+        validated_question, validation_error = validate_question_payload(json)
+
+        if not validated_question:
+            return validation_error, 400
+
+        try:
+            result = answer_question(validated_question)
+        except ModelClientError as err:
+            return {"error": "model_service_error", "message": str(err)}, 502
+
+        return result, 200
 
     return app
 

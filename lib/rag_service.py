@@ -16,13 +16,7 @@ def answer_question(
     top_k=DEFAULT_TOP_K,
 ):
     """Run the full RAG workflow for a validated question."""
-    # TODO: Use provided dependencies when passed, otherwise use default helpers.
-    # TODO: Retrieve context before building the prompt.
-    # TODO: Return fallback response and do not call the model when context is empty.
-    # TODO: Build the prompt.
-    # TODO: Call the model client.
-    # TODO: Raise ModelClientError if the model answer is blank or unusable.
-    # TODO: Return formatted success response with answer and sources.
+    #  Use real calls by default
     retriever = retriever or retrieve_context
     prompt_builder = prompt_builder or build_rag_prompt
     model_client = model_client or generate_answer
