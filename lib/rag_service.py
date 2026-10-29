@@ -23,4 +23,21 @@ def answer_question(
     # TODO: Call the model client.
     # TODO: Raise ModelClientError if the model answer is blank or unusable.
     # TODO: Return formatted success response with answer and sources.
-    raise NotImplementedError("Implement answer_question().")
+    retriever = retriever or retrieve_context
+    prompt_builder = prompt_builder or build_rag_prompt
+    model_client = model_client or generate_answer
+    
+    context = retriever(question, top_k=top_k)
+    if not context:
+        return format_fallback_response()
+    
+    prompt = prompt_builder(question, context)
+    try:
+        answer = model_client(prompt)
+    except Exception as err:
+        raise ModelClientError() from err
+    
+    if not answer or not answer.strip():
+        raise ModelClientError()
+    
+    return format_success_response(answer, format_sources(context))
