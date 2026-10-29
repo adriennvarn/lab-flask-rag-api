@@ -1,7 +1,11 @@
 import requests
 
+import ollama
+
 DEFAULT_MODEL_NAME = "llama3.2"
 DEFAULT_BASE_URL = "http://localhost:11434"
+
+EMBEDDING_MODEL = "embeddinggemma"
 
 
 class ModelClientError(Exception):

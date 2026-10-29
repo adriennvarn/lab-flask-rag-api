@@ -8,12 +8,6 @@ def validate_question_payload(payload):
         (question, None) when valid
         (None, error_dict) when invalid
     """
-    # TODO: Require payload to be a dictionary.
-    # TODO: Require a question field.
-    # TODO: Require question to be a string.
-    # TODO: Strip extra whitespace.
-    # TODO: Reject blank questions.
-    # TODO: Reject questions shorter than MIN_QUESTION_LENGTH.
     
     if not isinstance(payload, dict):
         return None, {"error": "invalid_request", "message": "str"}
