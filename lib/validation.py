@@ -14,4 +14,22 @@ def validate_question_payload(payload):
     # TODO: Strip extra whitespace.
     # TODO: Reject blank questions.
     # TODO: Reject questions shorter than MIN_QUESTION_LENGTH.
-    raise NotImplementedError("Implement validate_question_payload().")
+    
+    if not isinstance(payload, dict):
+        return None, {"error": "invalid_request", "message": "str"}
+    if "question" not in payload.keys():
+        return None, {"error": "missing_question", "message": "str"}
+    
+    question = payload["question"]
+    
+    if not isinstance(question, str):
+        return None, {"error": "invalid_question", "message": "str"}
+    
+    question = question.strip()
+    
+    if not question:
+        return None, {"error": "empty_question", "message": "str"}
+    if not len(question) >= MIN_QUESTION_LENGTH:
+        return None, {"error": "short_question", "message": "str"}
+    
+    return (question, None)
