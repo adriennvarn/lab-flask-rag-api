@@ -62,11 +62,6 @@ def retrieve_context(question, collection=get_chroma_collection(), top_k=DEFAULT
 
     Tests may pass a fake collection. Manual use should call Chroma.
     """
-    # TODO: Strip the question.
-    # TODO: Use the provided collection or get_chroma_collection().
-    # TODO: Call collection.query() with query_texts, n_results, and include.
-    # TODO: Return normalized context chunks.
-
     question = question.strip()
     if not question:
         return []
