@@ -8,22 +8,35 @@ def validate_question_payload(payload):
         (question, None) when valid
         (None, error_dict) when invalid
     """
+    if not isinstance(payload, dict): 
+        return None, {
+            "error": "invalid_request",
+            "message": "Request body must be a JSON object."
+        }
     
-    if not isinstance(payload, dict):
-        return None, {"error": "invalid_request", "message": "str"}
-    if "question" not in payload.keys():
-        return None, {"error": "missing_question", "message": "str"}
+    if "question" not in payload:
+        return None, {
+            "error": "missing_question",
+            "message": "Request body must include a question field."
+        }
     
     question = payload["question"]
     
     if not isinstance(question, str):
-        return None, {"error": "invalid_question", "message": "str"}
+        return None, {"error": "invalid_question", "message": "Question must be of type str."}
     
     question = question.strip()
     
     if not question:
-        return None, {"error": "empty_question", "message": "str"}
-    if not len(question) >= MIN_QUESTION_LENGTH:
-        return None, {"error": "short_question", "message": "str"}
+        return None, {
+            "error": "empty_question",
+            "message": "Question cannot be blank."
+        }
     
-    return (question, None)
+    if len(question) < MIN_QUESTION_LENGTH:
+        return None, {
+            "error": "short_question",
+            "message": f"Question must be at least {MIN_QUESTION_LENGTH} characters long."
+        }
+    
+    return question, None
